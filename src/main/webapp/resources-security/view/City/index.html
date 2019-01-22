@@ -1,0 +1,113 @@
+<div class="padding">
+    <div class="box">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>დასახელება</th>
+                    <th>დასახელება</th>
+                    <th>დასახელება</th>
+                    <th>ქმედება</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in data.results">
+                    <td>
+                        <label>{{item.translation.titleGE}}</label>
+                    </td>
+                    <td>
+                        <label>{{item.translation.titleEN}}</label>
+                    </td>
+                    <td>
+                        <label>{{item.translation.titleRU}}</label>
+                    </td>
+                    <td>
+                        <i class="fa fa-fw fa-pencil" ng-click="showAddEdit(item)"></i>
+                        <i class="fa fa-fw fa-trash-o" ng-model="item"
+                           ng-popover-confirm="delete({{item.id}})"
+                           data-title="წავშალო ჩანაწერი?">
+                        </i>
+                    </td>
+                </tr>
+                <tr ng-if="!data.results.length" class="text-center">
+                    <td colspan="100" class="warning">ჩანაწერები ვერ მოიძებნა</td>
+                </tr>
+                </tbody>
+                <tfoot class="hide-if-no-paging">
+                <tr>
+                    <td colspan="50" class="text-center">
+                        <imperio-pager></imperio-pager>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <imperio-fab></imperio-fab>
+</div>
+
+<div id="showAddEdit" class="modal black-overlay" data-backdrop="false">
+    <div class="modal-dialog modal-lg" ng-form="addEditForm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{init.action}}</h5>
+            </div>
+            <div class="modal-body p-lg">
+                <div class="b-b b-primary nav-active-primary">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="" data-toggle="tab" data-target="#tab-georgian"
+                               aria-expanded="false">ქართული</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="" data-toggle="tab"
+                               data-target="#tab-english" aria-expanded="true">English</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="" data-toggle="tab"
+                               data-target="#tab-russian" aria-expanded="true">Russian</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-content p-a m-b-md">
+                    <div class="tab-pane nav-active-primary active" id="tab-georgian"
+                         aria-expanded="false">
+                        <section>
+                            <div class="form-group">
+                                <label>სათაური ქართულად: </label>
+                                <input class="form-control rounded" type="text" placeholder="სათაური ქართულად"
+                                       ng-model="object.translation.titleGE">
+                            </div>
+                        </section>
+                    </div>
+                    <div class="tab-pane nav-active-primary" id="tab-english"
+                         aria-expanded="false">
+                        <section>
+                            <div class="form-group">
+                                <label>სათაური ინგლისურად: </label>
+                                <input class="form-control rounded" type="text" placeholder="სათაური ინგლისურად"
+                                       ng-model="object.translation.titleEN">
+                            </div>
+                        </section>
+                    </div>
+                    <div class="tab-pane nav-active-primary" id="tab-russian"
+                         aria-expanded="false">
+                        <section>
+                            <div class="form-group">
+                                <label>სათაური რუსულად: </label>
+                                <input class="form-control rounded" type="text" placeholder="სათაური რუსულად"
+                                       ng-model="object.translation.titleRU">
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn dark-white p-x-md" data-dismiss="modal">დახურვა</button>
+                <button type="button" class="btn danger p-x-md" ng-disabled="addEditForm.$invalid"
+                        ng-click="save()">შენახვა
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

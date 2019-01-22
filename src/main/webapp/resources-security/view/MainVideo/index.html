@@ -1,0 +1,105 @@
+<div class="padding">
+    <div class="box"  ng-form="addEditForm"  uploader="uploader">
+        <form style="padding:30px">
+            <fieldset>
+                <legend>
+                    მთავარი ვიდეოს რედაქტირება
+                </legend>
+            </fieldset>
+            <hr>
+            <fieldset>
+                <div class="row">
+                    <div class="danger alert">
+                        <span class="">მოცემული ფუნქცია გამოიყენება გადამისამართების მიზნით.</span>
+                    </div>
+                    <section>
+                        <div class="form-group">
+                            <label>თქვენი ვიდეოს მისამართი</label>
+                            <input type="url" class="form-control" placeholder="http://" required ng-model="object.href">
+                        </div>
+                    </section>
+                    <div class="b-b b-primary nav-active-primary">
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="" data-toggle="tab" data-target="#tab-georgian"
+                                   aria-expanded="false">ქართული</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="" data-toggle="tab"
+                                   data-target="#tab-english" aria-expanded="true">English</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="" data-toggle="tab"
+                                   data-target="#tab-russian" aria-expanded="true">Russia</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-content p-a m-b-md">
+                        <div class="tab-pane nav-active-primary active" id="tab-georgian"
+                             aria-expanded="false">
+                            <section class="col col-md-12">
+                                <div class="form-group">
+                                    <label>სათაური ქართულად</label>
+                                    <input class="form-control" type="text" placeholder="დასახელება ქართულად"
+                                           ng-model="object.translation.titleGE"
+                                           required>
+                                </div>
+                            </section>
+                            <section class="col col-md-12">
+                                <div class="form-group">
+                                    <label>აღწერა ქართულად: </label>
+                                    <textarea class="form-control" required ng-model="object.translation.descriptionGE"></textarea>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="tab-pane nav-active-primary" id="tab-english"
+                             aria-expanded="true">
+                            <section class="col col-md-12">
+                                <div class="form-group">
+                                    <label>სათაური ინგლისურად</label>
+                                    <input class="form-control" type="text"  placeholder="დასახელება ინგლისურად"
+                                           ng-model="object.translation.titleEN"
+                                           required>
+                                </div>
+                            </section>
+                            <section class="col col-md-12">
+                                <div class="form-group">
+                                    <label>აღწერა ინგლისურად: </label>
+                                    <textarea class="form-control" required ng-model="object.translation.descriptionEN"></textarea>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="tab-pane nav-active-primary" id="tab-russian"
+                             aria-expanded="true">
+                            <section class="col col-md-12">
+                                <div class="form-group">
+                                    <label>სათაური რუსულად</label>
+                                    <input class="form-control" type="text" placeholder="დასახელება რუსულად"
+                                           ng-model="object.translation.titleRU"
+                                           required>
+                                </div>
+                            </section>
+                            <section class="col col-md-12">
+                                <div class="form-group">
+                                    <label>აღწერა რუსულად: </label>
+                                    <textarea class="form-control" required ng-model="object.translation.descriptionRU"></textarea>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <hr>
+            <div class="form-actions">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="btn danger p-x-md" style="float: right;"
+                                ng-disabled="addEditForm.$invalid"
+                                ng-click="save()">შენახვა
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,194 @@
+<div class="padding">
+    <div class="box">
+        <div class="table-responsive">
+            <imperio-search-input></imperio-search-input>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th imperio-sortable-by="flightNumber">GDX ფრენის ნომერი</th>
+                    <th imperio-sortable-by="flightRealNumber">რეალური ნომერი</th>
+                    <th imperio-sortable-by="state">სტატუსი</th>
+                    <th imperio-sortable-by="sendDate">გამოგზავნის სავ. თარ.</th>
+                    <th imperio-sortable-by="recieveDate">ჩამოსვლსი სავ. თარ.</th>
+                    <th>ქმედება</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in data.results">
+                    <td>{{item.flightNumber}}</td>
+                    <td ng-if="item.flightRealNumber == null">
+                        <label>არ არის მინიჭებული</label>
+                    </td>
+                    <td ng-if="item.flightRealNumber != null">
+                        <label>{{item.flightRealNumber}}</label>
+                    </td>
+                    <td ng-if="item.state == 'NONE'">გაურკვეველია</td>
+                    <td ng-if="item.state == 'PREPARING'">გამოსაგზავნად ემზადება</td>
+                    <td ng-if="item.state == 'SENT'">გამოგზავნილია</td>
+                    <td ng-if="item.state == 'DELIVERED'">ჩამოსულია</td>
+                    <td ng-if="item.state == 'DELAYED'">გადაიდო</td>
+                    <td ng-bind="item.sendDate | date:'dd-MM-yyyy'"></td>
+                    <td ng-bind="item.recieveDate | date:'dd-MM-yyyy'"></td>
+                    <td>
+                        <i class="fa fa-fw fa-pencil" ng-click="showAddEdit(item)"></i>
+                        <i class="fa fa-fw fa-file-excel-o" ng-click="upload(item)"></i>
+                        <i class="fa fa-fw fa-trash-o" ng-model="item"
+                           ng-popover-confirm="delete({{item.id}})"
+                           data-title="წავშალო ჩანაწერი?">
+                        </i>
+                    </td>
+                </tr>
+                <tr ng-if="!data.results.length" class="text-center">
+                    <td colspan="100" class="warning">ჩანაწერები ვერ მოიძებნა</td>
+                </tr>
+                </tbody>
+                <tfoot class="hide-if-no-paging">
+                <tr>
+                    <td colspan="50" class="text-center">
+                        <imperio-pager></imperio-pager>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <imperio-fab></imperio-fab>
+</div>
+
+<div id="showAddEdit" class="modal black-overlay" data-backdrop="false">
+    <div class="modal-dialog modal-lg" ng-form="addEditForm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{init.action}} <span ng-if="init.action == 'რედაქტირება'">
+                - {{object.flightNumber}}
+                </span></h5>
+            </div>
+            <div class="modal-body p-lg">
+                <section>
+                    <div class="form-group">
+                        <label>ფრენის რეალური ნომერი</label>
+                        <input class="form-control" type="text"
+                               placeholder="ფრენის კოდური სახელი"
+                               ng-model="object.flightRealNumber">
+                    </div>
+                </section>
+                <section>
+                    <div class="form-group">
+                        <label>ფრენის სტატუსი</label>
+                        <select class="form-control"
+                                ng-model="object.state"
+                                ng-options="item.id as item.name for item in flightStateList">
+                            <option value='' selected="selected">- აირჩიეთ სტატუსი -</option>
+                        </select>
+                    </div>
+                </section>
+                <section>
+                    <div class="form-group">
+                        <label>საწყობის მისამართი</label>
+                        <select class="form-control"
+                                ng-model="object.state"
+                                ng-options="item.id as item.tabName for item in parcelList">
+                            <option value='' selected="selected">- აირჩიეთ საწყობი -</option>
+                        </select>
+                    </div>
+                </section>
+                <section>
+                    <div class="form-group">
+                        <label>სავ.გამოგზავნის თარიღი</label>
+                        <input type="text" class="form-control"
+                               placeholder="სავ.გამოგზავნის თარიღი"
+                               ng-model="object.sendDate" imperio-datepicker>
+                    </div>
+                </section>
+                <section>
+                    <div class="form-group">
+                        <label>სავ.ჩამოსვლის თარიღი</label>
+                        <input type="text" class="form-control"
+                               placeholder="სავ.ჩამოსვლის თარიღი"
+                               ng-model="object.recieveDate" imperio-datepicker>
+                    </div>
+                </section>
+                <section>
+                    <div class="form-group">
+                        <label>ოფისიდან ნივთის გაცემის თარიღი</label>
+                        <input type="text" class="form-control"
+                               placeholder="ოფისიდან ნივთის გაცემის თარიღი"
+                               ng-model="object.takeoutDate" imperio-datepicker>
+                    </div>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn dark-white p-x-md" data-dismiss="modal">დახურვა</button>
+                <button type="button" class="btn danger p-x-md" ng-disabled="addEditForm.$invalid"
+                        ng-click="save()">შენახვა
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="importDialog" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" ng-form="importDialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title">ამანათების იმპორტი</h3>
+            </div>
+            <div class="modal-body">
+                <form action="" class="smart-form" novalidate="novalidate">
+                    <fieldset ng-if="!uploaded">
+                        <section>
+                            <div class="alert alert-warning fade in">
+                                <button class="close" data-dismiss="alert">
+                                    ×
+                                </button>
+                                <i class="fa-fw fa fa-warning"></i>
+                                <strong>ყურადღება</strong>
+                                იმპორტის შესასრულებლად საჭიროა Excel ფაილი '.xls' გაფართოებით.<br>
+                                ველების თანმიმდევრობა იხილეთ მოცემულ ცხრილში<br>
+                                ცხრილი არ უნდა მოიცავდეს სათაურებს!!!
+                            </div>
+                        </section>
+                        <section>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <td>თარიღი</td>
+                                        <td>სახელი გვარი</td>
+                                        <td>თრექინგის კოდი</td>
+                                        <td>ოთახის ნომერი</td>
+                                        <td>წონა</td>
+                                    </tr>
+                                    <tr>
+                                        <td>31/10/2017</td>
+                                        <td>Onise rijamadze</td>
+                                        <td>457582229473</td>
+                                        <td>GDX01036</td>
+                                        <td>1.1</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </section>
+                        <input type="file" id="import_file" style="visibility:hidden">
+                        <section class="col col-md-6">
+                            <a href="javascript:void(0);"
+                               onclick="$('#import_file').click()"
+                               class="upload-btn btn btn-default" style="margin: 0" ng-disabled="importDialog.$invalid">იმპორტი</a>
+                            <button ng-click="uploadExcel()">Go!</button>
+                        </section>
+                    </fieldset>
+                    <fieldset ng-if="uploaded">
+                        <div class="alert alert-success fade in">
+                            <i class="fa-fw fa fa-check"></i>
+                            ოპერაცია შესრულდა წარმატებით.<br>
+                            ცვლილებების სანახავად გადატვირთეთ გვერდი
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">დახურვა</button>
+            </div>
+        </div>
+    </div>
+</div>

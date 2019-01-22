@@ -1,0 +1,67 @@
+<div class="padding">
+    <div class="box">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>მნიშვნელობა</th>
+                        <th>აღწერა</th>
+                        <th>ქმედება</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in data.results">
+                    <td>
+                        <label>{{item.data}}</label>
+                    </td>
+                    <td>{{item.description}}</td>
+                    <td>
+                        <i class="fa fa-fw fa-pencil" ng-click="showAddEdit(item)"></i>
+                        <i class="fa fa-fw fa-trash-o" ng-model="item"
+                           ng-popover-confirm="delete({{item.id}})"
+                           data-title="წავშალო ჩანაწერი?">
+                        </i>
+                    </td>
+                </tr>
+                <tr ng-if="!data.results.length" class="text-center">
+                    <td colspan="100" class="warning">ჩანაწერები ვერ მოიძებნა</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="showAddEdit" class="modal black-overlay" data-backdrop="false">
+    <div class="modal-dialog modal-lg" ng-form="addEditForm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{init.action}}</h5>
+            </div>
+            <div class="modal-body p-lg">
+                <section>
+                    <div class="form-group">
+                        <label>პარამეტრის სახელი</label>
+                        <input class="form-control" type="text" placeholder="პარამეტრის მნიშვნელობა" ng-model="object.data"
+                            required>
+                    </div>
+                </section>
+                <section>
+                    <section>
+                        <div class="form-group">
+                            <label>პარამეტრის აღწერა</label>
+                            <textarea class="form-control" style="height:300px"
+                                      ng-model="object.description" placeholder="აღწერა ქართულად" required></textarea>
+                        </div>
+                    </section>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn dark-white p-x-md" data-dismiss="modal">დახურვა</button>
+                <button type="button" class="btn danger p-x-md" ng-disabled="addEditForm.$invalid"
+                        ng-click="save()">შენახვა
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

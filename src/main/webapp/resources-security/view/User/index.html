@@ -1,0 +1,279 @@
+<div class="padding">
+    <div class="box">
+        <div class="table-responsive">
+            <imperio-search-input></imperio-search-input>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th imperio-sortable-by="userName">
+                        მომხმარებელი
+                    </th>
+                    <th data-hide="phone,tablet">
+                        როლი
+                    </th>
+                    <th imperio-sortable-by="firstName">
+                        სახელი,გვარი
+                    </th>
+                    <th imperio-sortable-by="userRoomCode">
+                        ოთახის ნომერი
+                    </th>
+                    <th imperio-sortable-by="phone">
+                        მ/ნომერი
+                    </th>
+                    <th imperio-sortable-by="balance">
+                        ბალანსი
+                    </th>
+                    <th imperio-sortable-by="isActive">
+                        აქტიური
+                    </th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in data.results">
+                    <td>{{item.username}}</td>
+                    <td>{{item.role.name}}</td>
+                    <td>{{item.firstNameEN + ' ' + item.lastNameEN}}</td>
+                    <td>{{item.userRoomCode}}</td>
+                    <td>{{item.phone}}</td>
+                    <td>{{item.balance}}</td>
+                    <td>
+                        <span class="label" ng-class="{'success' : item.active, 'warning' : !item.active}">
+                            {{item.active ? 'აქტიური' : 'შეჩერებული'}}
+                        </span>
+                    </td>
+                    <td>
+                        <i class="fa fa-fw fa-pencil" ng-click="showAddEdit(item)"></i>
+                        <i class="fa fa-fw fa-trash-o" ng-model="item"
+                           ng-popover-confirm="delete({{item.id}})"
+                           data-title="წავშალო ჩანაწერი?">
+                        </i>
+                    </td>
+                </tr>
+                <tr ng-if="!data.results.length" class="text-center">
+                    <td colspan="100" class="warning">ჩანაწერები ვერ მოიძებნა</td>
+                </tr>
+                </tbody>
+                <tfoot class="hide-if-no-paging">
+                <tr>
+                    <td colspan="50" class="text-center">
+                        <imperio-pager></imperio-pager>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <imperio-fab></imperio-fab>
+</div>
+
+<div id="showAddEdit" class="modal black-overlay" data-backdrop="false">
+    <div class="modal-dialog modal-lg" ng-form="addEditForm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">მომხმარებლის {{init.action}}</h5>
+            </div>
+            <div class="modal-body text-center p-lg">
+
+                <form role="form" name="userForm">
+                    <fieldset ng-if="object.imgURL != null">
+                        <hr>
+                        <div class="row">
+                            <section class="col col-md-12">
+                                <img checkImage ng-src="/uploads/user/{{object.imgURL}}"
+                                     class="img-responsive img-thumbnail" style="width:204px;height:auto;">
+                            </section>
+                        </div>
+                        <hr>
+                    </fieldset>
+                    <fieldset>
+                        <imperio-file-uploader-input></imperio-file-uploader-input>
+                        <div class="row">
+                            <section class="col col-md-6">
+                                <div class="form-group">
+                                    <label>მომხმარებელი: </label>
+                                    <input type="text" ng-minlength="2" ng-maxlength="16"
+                                           placeholder="მომხმარებელი" ng-model="object.username"
+                                           class="form-control" required/>
+                                </div>
+                            </section>
+                            <section class="col col-md-6">
+                                <div class="form-group">
+                                    <label>სახელი: </label>
+                                    <input type="text" name="firstname" placeholder="სახელი ლათინურად" ng-minlength="2"
+                                           ng-maxlength="20"
+                                           ng-model="object.firstNameEN"
+                                           class="form-control" required/>
+                                </div>
+                            </section>
+                            <section class="col col-md-6">
+                                <div class="form-group">
+                                    <label>გვარი: </label>
+                                    <input type="text" name="lastname" placeholder="გვარი ლათინურად" ng-minlength="2"
+                                           ng-maxlength="20"
+                                           ng-model="object.lastNameEN"
+                                           class="form-control" required/>
+                                </div>
+                            </section>
+                            <section class="col col-md-6">
+                                <div class="form-group">
+                                    <label>სახელი: </label>
+                                    <input type="text" name="firstname" placeholder="სახელი ქართულად" ng-minlength="2"
+                                           ng-maxlength="20"
+                                           ng-model="object.firstNameGE"
+                                           class="form-control" required/>
+                                </div>
+                            </section>
+                            <section class="col col-md-6">
+                                <div class="form-group">
+                                    <label>გვარი: </label>
+                                    <input type="text" name="lastname" placeholder="გვარი ქართულად" ng-minlength="2"
+                                           ng-maxlength="20"
+                                           ng-model="object.lastNameGE"
+                                           class="form-control" required/>
+                                </div>
+                            </section>
+                            <section class="col col-md-6">
+                                <div class="form-group">
+                                    <label>ტელეფონი: </label>
+                                    <input type="text" name="phoneNumber" placeholder="ტელეფონი"
+                                           ng-model="object.phone"
+                                           class="form-control" required/>
+                                </div>
+                            </section>
+                            <section class="col col-md-6">
+                                <div class="form-group">
+                                    <label>იდენტიფიქატორი: </label>
+                                    <input type="text" name="identification" placeholder="იდენტიფიქატორი"
+                                           ng-model="object.identification"
+                                           class="form-control" required/>
+                                </div>
+                            </section>
+                            <section class="col col-md-6">
+                                <div class="form-group">
+                                    <label>მისამართი 1: </label>
+                                    <input type="text" name="address1" placeholder="მისამართი"
+                                           ng-model="object.address1"
+                                           class="form-control" required/>
+                                </div>
+                            </section>
+                            <section class="col col-md-6">
+                                <div class="form-group">
+                                    <label>მისამართი 2: </label>
+                                    <input type="text" name="address1" placeholder="მისამართი"
+                                           ng-model="object.address2"
+                                           class="form-control" required/>
+                                </div>
+                            </section>
+                            <section class="col col-md-6">
+                                <div class="form-group">
+                                    <label>კომპანიის სახელი: </label>
+                                    <input type="text" name="companyName" placeholder="კომპანიის სახელი"
+                                           ng-model="object.companyName"
+                                           class="form-control"/>
+                                </div>
+                            </section>
+                            <section class="col col-md-6">
+                                <div class="form-group">
+                                    <label>როლი: </label>
+                                    <select class="form-control"
+                                            ng-model="object.role.id"
+                                            ng-options="item.id as item.name for item in role_list">
+                                        <option value='' selected="selected">- აირჩიეთ როლი -</option>
+                                    </select>
+                                </div>
+                            </section>
+                            <div class="col col-md-12">
+                                <div class="form-group" ng-if="init.action == 'დამატება'"
+                                     ng-class="{'has-error': userForm.password.$invalid, 'has-success':userForm.password.$valid}">
+                                    <label>User Password</label>
+                                    <input type="password" class="form-control" name="password"
+                                           ng-model="object.password"
+                                           ng-minlength="8"
+                                           ng-maxlength="20"
+                                           required>
+                                    <p class="alert alert-warning"
+                                       ng-if="userForm.password.$invalid && userForm.password.$dirty">
+                                        Min 8, Max 20 symbol.
+                                    </p>
+                                </div>
+                                <div class="form-group" ng-if="init.action == 'დამატება'"
+                                     ng-class="{'has-error': userForm.verify_password.$invalid, 'has-success':userForm.verify_password.$valid}">
+                                    <label>User Verify Password</label>
+                                    <input type="password" class="form-control" name="verify_password"
+                                           ng-model="object.verify_password"
+                                           ng-minlength="8"
+                                           ng-maxlength="20"
+                                           compare-to="object.password"
+                                           required>
+                                    <p class="alert alert-warning"
+                                       ng-if="userForm.verify_password.$invalid && userForm.verify_password.$dirty">
+                                        Min 8, Max 20 symbol.
+                                        <span ng-if="object.password != object.verify_password">Passwords do not match.</span>
+                                    </p>
+                                </div>
+                                <div class="form-group" ng-if="init.action == 'რედაქტირება'"
+                                     ng-class="{'has-error': userForm.new_password.$invalid, 'has-success':userForm.new_password.$valid}">
+                                    <label>Set New Password</label>
+                                    <input type="text" class="form-control" name="new_password"
+                                           ng-model="object.newpassword"
+                                           ng-minlength="8"
+                                           ng-maxlength="20"
+                                    >
+                                    <p class="alert alert-warning"
+                                       ng-if="userForm.newpassword.$invalid && userForm.newpassword.$dirty">
+                                        Min 8, Max 20 symbol.
+                                    </p>
+                                </div>
+                                <div class="form-group" ng-if="init.action == 'რედაქტირება'"
+                                     ng-class="{'has-error': userForm.verify_new_password.$invalid, 'has-success':userForm.verify_new_password.$valid}">
+                                    <label>Verify New Password</label>
+                                    <input type="text" class="form-control" name="verify_new_password"
+                                           ng-model="object.verifynewpassword"
+                                           ng-minlength="8"
+                                           ng-maxlength="20"
+                                           compare-to="object.newpassword"
+                                    >
+                                    <p class="alert alert-warning"
+                                       ng-if="userForm.verify_new_password.$invalid && userForm.verify_new_password.$dirty">
+                                        Min 8, Max 20 symbol.
+                                        <span ng-if="object.newpassword != object.verifynewpassword">Passwords do not match.</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+
+                <imperio-meta></imperio-meta>
+            </div>
+            <div class="modal-footer">
+                <section class="col col-md-3" style="float: left; text-align: left;">
+                    <label class="md-check">
+                        <input type="checkbox" ng-model="object.active">
+                        <i class="blue"></i>
+                        აქტიური
+                    </label>
+                </section>
+                <section class="col col-md-3" style="float: left; text-align: left;">
+                    <label class="md-check">
+                        <input type="checkbox" ng-model="object.juridical">
+                        <i class="blue"></i>
+                        იურიდიული
+                    </label>
+                </section>
+                <section class="col col-md-3" style="float: left; text-align: left;">
+                    <label class="md-check">
+                        <input type="checkbox" ng-model="object.foreigner">
+                        <i class="blue"></i>
+                        უცხოელი
+                    </label>
+                </section>
+                <button type="button" class="btn dark-white p-x-md" data-dismiss="modal">დახურვა</button>
+                <button type="button" class="btn danger p-x-md" ng-disabled="addEditForm.$invalid"
+                        ng-click="save()">შენახვა
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

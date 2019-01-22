@@ -1,0 +1,182 @@
+<div class="padding">
+    <fieldset>
+        <div class="col-sm-12" ng-repeat="item in sliderList">
+            <div class="box p-a-xs">
+                <div ng-click="showAddEdit(item)" style="cursor:pointer">
+                    <div class="slider-image" style="background-image: url(/uploads/{{item.image}})"></div>
+                </div>
+                <div class="p-a-sm">
+                    <div class="text-ellipsis">
+                        {{item.title1}}
+                        <div class="pull-right">
+                        <span class="label red"
+                              style="cursor:pointer"
+                              ng-click="showAddEdit(item)">
+                            <i class="fa fa-pencil"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <imperio-fab></imperio-fab>
+</div>
+
+
+<div id="showAddEdit" class="modal black-overlay" data-backdrop="false">
+    <div class="modal-dialog modal-lg" ng-form="addEditForm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{init.action}}</h5>
+            </div>
+            <div class="modal-body p-lg">
+                <div class="b-b b-primary nav-active-primary">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="" data-toggle="tab"
+                               data-target="#tab-media" aria-expanded="true">Media</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="" data-toggle="tab" data-target="#tab-georgian"
+                               aria-expanded="false">ტექსტები</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="" data-toggle="tab" data-target="#tab-day-one"
+                               aria-expanded="false">Day One</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="" data-toggle="tab" data-target="#tab-day-two"
+                               aria-expanded="false">Day Two</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="" data-toggle="tab" data-target="#tab-day-three"
+                               aria-expanded="false">Day Three</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-content p-a m-b-md">
+                    <div class="tab-pane nav-active-primary active" id="tab-media"
+                         aria-expanded="true">
+                        <div class="danger alert">
+                            <span class="">რეკომენდირებული სურათის გაფართოება: 1170px-604px</span>
+                        </div>
+                        <fieldset ng-if="object.image != null">
+                            <hr>
+                            <div class="row">
+                                <section class="col col-md-12">
+                                    <img checkImage ng-src="/uploads/{{object.image}}"
+                                         class="img-responsive img-thumbnail" style="width:204px;height:auto;">
+                                </section>
+                            </div>
+                            <hr>
+                        </fieldset>
+                        <section>
+                            <imperio-file-uploader-input></imperio-file-uploader-input>
+                        </section>
+                    </div>
+                    <div class="tab-pane nav-active-primary" id="tab-georgian"
+                         aria-expanded="false">
+                        <section>
+                            <div class="form-group">
+                                <label>მთავარი სათაური: </label>
+                                <input class="form-control rounded" type="text" placeholder="მთავარი სათაური"
+                                       ng-model="object.pageTitle">
+                            </div>
+                        </section>
+                        <section>
+                            <div class="form-group">
+                                <label>მოკლე აღწერა: </label>
+                                <textarea class="form-control" ng-model="object.pageDesc"
+                                          placeholder="მოკლე აღწერა"></textarea>
+                            </div>
+                        </section>
+                    </div>
+
+                    <div class="tab-pane nav-active-primary" id="tab-day-one"
+                         aria-expanded="false">
+                        <section>
+                            <div class="form-group">
+                                <label>სათაური: </label>
+                                <input class="form-control rounded" type="text" placeholder="სათაური"
+                                       ng-model="object.title1">
+                            </div>
+                        </section>
+                        <section>
+                            <div class="form-group">
+                                <label>მოკლე აღწერა: </label>
+                                <textarea class="form-control" ng-model="object.description1"
+                                          placeholder="მოკლე აღწერა"></textarea>
+                            </div>
+                        </section>
+                        <section>
+                            <div class="form-group">
+                                <label>თარიღი: </label>
+                                <input type="text" class="form-control"
+                                       placeholder="თარიღი"
+                                       ng-model="object.date1" imperio-datepicker>
+                            </div>
+                        </section>
+                    </div>
+
+                    <div class="tab-pane nav-active-primary" id="tab-day-two"
+                         aria-expanded="false">
+                        <section>
+                            <div class="form-group">
+                                <label>სათაური: </label>
+                                <input class="form-control rounded" type="text" placeholder="სათაური"
+                                       ng-model="object.title2">
+                            </div>
+                        </section>
+                        <section>
+                            <div class="form-group">
+                                <label>მოკლე აღწერა: </label>
+                                <textarea class="form-control" ng-model="object.description2"
+                                          placeholder="მოკლე აღწერა"></textarea>
+                            </div>
+                        </section>
+                        <section>
+                            <div class="form-group">
+                                <label>თარიღი: </label>
+                                <input type="text" class="form-control"
+                                       placeholder="თარიღი"
+                                       ng-model="object.date2" imperio-datepicker>
+                            </div>
+                        </section>
+                    </div>
+
+                    <div class="tab-pane nav-active-primary" id="tab-day-three"
+                         aria-expanded="false">
+                        <section>
+                            <div class="form-group">
+                                <label>სათაური: </label>
+                                <input class="form-control rounded" type="text" placeholder="სათაური"
+                                       ng-model="object.title3">
+                            </div>
+                        </section>
+                        <section>
+                            <div class="form-group">
+                                <label>მოკლე აღწერა: </label>
+                                <textarea class="form-control" ng-model="object.description3"
+                                          placeholder="მოკლე აღწერა"></textarea>
+                            </div>
+                        </section>
+                        <section>
+                            <div class="form-group">
+                                <label>თარიღი: </label>
+                                <input type="text" class="form-control"
+                                       placeholder="თარიღი"
+                                       ng-model="object.date3" imperio-datepicker>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn dark-white p-x-md" data-dismiss="modal">დახურვა</button>
+                <button type="button" class="btn danger p-x-md" ng-disabled="addEditForm.$invalid"
+                        ng-click="save()">შენახვა
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

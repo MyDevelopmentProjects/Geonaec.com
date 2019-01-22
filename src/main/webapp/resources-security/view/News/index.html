@@ -1,0 +1,117 @@
+<div class="padding">
+    <div class="box">
+        <div class="table-responsive">
+            <imperio-search-input></imperio-search-input>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>სახელი</th>
+                    <th>შექმნის თარიღი</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in data.results">
+                    <td>{{item.id}}</td>
+                    <td>{{item.title}}</td>
+                    <td ng-bind="item.dateCreated | date:'dd-MM-yyyy'"></td>
+                    <td>
+                        <i class="fa fa-fw fa-pencil" ng-click="showAddEdit(item)"></i>
+                        <i class="fa fa-fw fa-trash-o" ng-model="item"
+                           ng-popover-confirm="delete({{item.id}})"
+                           data-title="წავშალო ჩანაწერი?">
+                        </i>
+                    </td>
+                </tr>
+                <tr ng-if="!data.results.length" class="text-center">
+                    <td colspan="100" class="warning">ჩანაწერები ვერ მოიძებნა</td>
+                </tr>
+                </tbody>
+                <tfoot class="hide-if-no-paging">
+                <tr>
+                    <td colspan="50" class="text-center">
+                        <imperio-pager></imperio-pager>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <imperio-fab></imperio-fab>
+</div>
+
+<div id="showAddEdit" class="modal black-overlay" data-backdrop="false">
+    <div class="modal-dialog modal-lg" ng-form="addEditForm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{init.action}}</h5>
+            </div>
+            <div class="modal-body p-lg">
+                <div class="b-b b-primary nav-active-primary">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="" data-toggle="tab" data-target="#tab-main"
+                               aria-expanded="false">მთავარი</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="" data-toggle="tab"
+                               data-target="#tab-media" aria-expanded="true">ფოტო & ფაილები</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="" data-toggle="tab"
+                               data-target="#tab-video" aria-expanded="true">ვიდეო</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="tab-content p-a m-b-md">
+                    <div class="tab-pane nav-active-primary active" id="tab-main"
+                         aria-expanded="false">
+                        <section>
+                            <div class="form-group">
+                                <label>სათაური: </label>
+                                <input class="form-control rounded" required type="text" placeholder="სათაური"
+                                       ng-model="object.title">
+                            </div>
+                        </section>
+                        <section>
+                            <div class="form-group">
+                                <label>აღწერა: </label>
+                                <summernote
+                                            on-image-upload="imageUploadGE(files, editor)"
+                                            editable="editableEN" ng-model="object.description"></summernote>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="tab-pane nav-active-primary" id="tab-media"
+                         aria-expanded="false">
+                        <label>ფოტო: </label>
+                        <imperio-file-uploader-input class="uplSingle"></imperio-file-uploader-input>
+                        <img ng-if='object.image' ng-src="uploads/{{object.image}}" width="150" />
+                        <br/>
+                        <label>ფაილები: </label>
+                        <imperio-file-uploader-input-multiple class="uplMult"></imperio-file-uploader-input-multiple>
+                        <br/>
+                        <div ng-repeat="item in fileArr">
+                            <a href="uploads/{{item}}" target="_blank">{{item}}</a>
+                            <a href="javascript:void(0)" ng-click="removeFile(fileArr.indexOf(item))"><b>&nbsp;წაშლა&nbsp;</b></a>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane nav-active-primary" id="tab-video"
+                         aria-expanded="false">
+                        <input type="text" class="form-control" ng-model="object.videoUrl" placeholder="შეიყვანეთ Youtube-ის ვიდეოს ID"><br/>
+                        <hr/>
+                        <angular-youtube ng-if="object.videoUrl" video="object.videoUrl"></angular-youtube>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn dark-white p-x-md" data-dismiss="modal">დახურვა</button>
+                <button type="button" class="btn danger p-x-md"
+                        ng-click="save()">შენახვა
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

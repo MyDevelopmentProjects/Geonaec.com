@@ -1,0 +1,34 @@
+<div class="row">
+    <div class="col col-md-12">
+        <section>
+            <br/>
+        </section>
+        <div class="col col-md-12">
+            <input class="form-control" ng-model="object.pageTitle">
+        </div>
+        <section class="col col-md-12">
+            <br/>
+
+            <div class="col col-md-2" ng-repeat="object in fileArr">
+                <img ng-src="uploads/{{object}}" class="col col-md-12"/>
+                <br/>
+                <a href="javascript:void(0)" ng-click="removeFile(fileArr.indexOf(object))" style="padding-left: 12px;">წაშლა</a>
+            </div>
+
+            <section class="col col-md-12">
+                <div class="form-group">
+                    <label>ფოტოები(მაქს 5): </label>
+                    <imperio-file-uploader-input-multiple class="uplMult"></imperio-file-uploader-input-multiple>
+                </div>
+            </section>
+
+            <section class="col col-md-12">
+                <button type="button" class="btn danger p-x-md"
+                        ng-click="saveLazyMult()">შენახვა
+                </button>
+            </section>
+
+        </section>
+
+    </div>
+</div>

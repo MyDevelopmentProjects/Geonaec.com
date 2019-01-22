@@ -1,0 +1,199 @@
+<div class="padding">
+    <div class="box">
+        <div class="table-responsive">
+            <imperio-search-input></imperio-search-input>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>თრექინგ კოდი</th>
+                    <th>ფრენის ნომერი</th>
+                    <th>ოთახის ნომერი</th>
+                    <th>სტატუსი</th>
+                    <th>ფ.წონა</th>
+                    <th>მოცულობა</th>
+                    <th>გადასახადი</th>
+                    <th>ჩინეთში ჩასვლა</th>
+                    <th>ჩინეთდან გამოგზავნა</th>
+                    <th>ჩამოსვლა თბილისში</th>
+                    <th>გადახდილია?</th>
+                    <th>დეკლარირებულია?</th>
+                    <th>აღწერილია?</th>
+                    <th>გასაბაჟებელია?</th>
+                    <th>კურიერის სერვისი?</th>
+                    <th>ხელით დამატებულია?</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in data.results">
+                    <td>{{item.id}}</td>
+                    <td>{{item.trackingCode}}</td>
+                    <td>{{item.flights.flightNumber}}</td>
+                    <td>{{item.user.userRoomCode}}</td>
+                    <th>{{item.status}}</th>
+                    <td>{{item.phisicalW}}</td>
+                    <td>{{item.volumeW}}</td>
+                    <td>{{item.priceToPay}}</td>
+                    <td ng-bind="item.chinaDeliveryDate | date:'dd-MM-yyyy'"></td>
+                    <td ng-bind="item.sentFromChinaDate | date:'dd-MM-yyyy'"></td>
+                    <td ng-bind="item.arrivalDate | date:'dd-MM-yyyy'"></td>
+                    <td>{{item.payed ? "დიახ":"არა"}}</td>
+                    <td>{{item.declared ? "დიახ":"არა"}}</td>
+                    <td>{{item.acceptedByGoldex ? "დიახ":"არა"}}</td>
+                    <td>{{item.mustCustomize ? "დიახ":"არა"}}</td>
+                    <td>{{item.usesCourier ? "დიახ":"არა"}}</td>
+                    <td>{{item.hasUserAdded ? "დიახ":"არა"}}</td>
+                    <td>
+                        <i class="fa fa-fw fa-pencil" ng-click="showAddEdit(item)"></i>
+                        <i class="fa fa-fw fa-trash-o" ng-model="item"
+                           ng-popover-confirm="delete({{item.id}})"
+                           data-title="წავშალო ჩანაწერი?">
+                        </i>
+                    </td>
+                </tr>
+                <tr ng-if="!data.results.length" class="text-center">
+                    <td colspan="100" class="warning">ჩანაწერები ვერ მოიძებნა</td>
+                </tr>
+                </tbody>
+                <tfoot class="hide-if-no-paging">
+                <tr>
+                    <td colspan="50" class="text-center">
+                        <imperio-pager></imperio-pager>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <imperio-fab></imperio-fab>
+</div>
+
+<div id="showAddEdit" class="modal black-overlay" data-backdrop="false">
+    <div class="modal-dialog modal-lg" ng-form="addEditForm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{init.action}} <span ng-if="init.action == 'რედაქტირება'">
+                - {{object.flights.flightNumber}}
+                </span></h5>
+            </div>
+            <div class="modal-body p-lg">
+                <div class="row">
+                    <section class="col-md-12">
+                        <div class="form-group">
+                            <label>ფრენის სტატუსი</label>
+                            <select class="form-control"
+                                    ng-model="object.status"
+                                    ng-options="item.id as item.name for item in goodsStateList">
+                                <option value='' selected="selected">- აირჩიეთ სტატუსი -</option>
+                            </select>
+                        </div>
+                    </section>
+                    <section class="col-md-6">
+                        <div class="form-group">
+                            <label>თრექინგ კოდი</label>
+                            <input class="form-control" type="text"
+                                   placeholder="თრექინგ კოდი"
+                                   ng-model="object.trackingCode">
+                        </div>
+                    </section>
+                    <section class="col-md-6">
+                        <div class="form-group">
+                            <label>აირჩიეთ რეისი</label>
+                            <input class="form-control" id="flightSelect" type="text" placeholder="რეისი" value="" autocomplete="off">
+                        </div>
+                    </section>
+                    <section  class="col-md-6">
+                        <div class="form-group">
+                            <label>აირჩიეთ ქვეყანა</label>
+                            <input class="form-control" id="countrySelect" type="text" placeholder="ქვეყანა" value="" autocomplete="off">
+                        </div>
+                    </section>
+                    <section  class="col-md-6">
+                        <div class="form-group">
+                            <label>ვალუტა</label>
+                            <input class="form-control" id="currencySelect"
+                                   type="text"
+                                   placeholder="ვალუტა"
+                                   value=""
+                                   autocomplete="off">
+                        </div>
+                    </section>
+                    <section class="col-md-12">
+                        <div class="form-group">
+                            <label>მომხმარებელი</label>
+                            <input class="form-control" id="userSelect" type="text" placeholder="მომხამრებელი" value="" autocomplete="off">
+                        </div>
+                    </section>
+                    <section  class="col-md-6">
+                        <div class="form-group">
+                            <label>ჩინეთში ჩასვლის თარიღი</label>
+                            <input type="text" class="form-control" ng-model="object.chinaDeliveryDate" ui-mask="9999-99-99"
+                                   placeholder="წელი-თვ-დღ"
+                                   model-view-value="{{true}}" imperio-datepicker required>
+                        </div>
+                    </section>
+                    <section  class="col-md-6">
+                        <div class="form-group">
+                            <label>ჩინეთიდან გამოგზავნის თარიღი</label>
+                            <input type="text" class="form-control" ng-model="object.sentFromChinaDate" ui-mask="9999-99-99"
+                                   placeholder="წელი-თვ-დღ"
+                                   model-view-value="{{true}}" imperio-datepicker required>
+                        </div>
+                    </section>
+                    <section  class="col-md-12">
+                        <div class="form-group">
+                            <label>ჩამოსვლის თარიღი</label>
+                            <input type="text" class="form-control" ng-model="object.arrivalDate" ui-mask="9999-99-99"
+                                   placeholder="წელი-თვ-დღ"
+                                   model-view-value="{{true}}" imperio-datepicker required>
+                        </div>
+                    </section>
+                    <section  class="col-md-4">
+                        <div class="form-group">
+                            <label>ფ.წონა</label>
+                            <input type="text" class="form-control" ng-model="object.phisicalW" required>
+                        </div>
+                    </section>
+                    <section  class="col-md-4">
+                        <div class="form-group">
+                            <label>მოცულობა</label>
+                            <input type="text" class="form-control" ng-model="object.volumeW" required>
+                        </div>
+                    </section>
+                    <section  class="col-md-4">
+                        <div class="form-group">
+                            <label>კგ.ფასი.ჩინ</label>
+                            <input type="text" class="form-control" ng-model="object.pricePerKGInChina" required>
+                        </div>
+                    </section>
+                    <section  class="col-md-4">
+                        <div class="form-group">
+                            <label>გადასახადი</label>
+                            <input type="text" class="form-control" ng-model="object.priceToPay" required>
+                        </div>
+                    </section>
+                    <section  class="col-md-4">
+                        <div class="form-group">
+                            <label>ფასდაკლება</label>
+                            <input type="text" class="form-control" ng-model="object.sellRate" required>
+                        </div>
+                    </section>
+                    <section  class="col-md-4">
+                        <div class="form-group">
+                            <label>გაყიდვის.კურსი</label>
+                            <input type="text" class="form-control" ng-model="object.discount" required>
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn dark-white p-x-md" data-dismiss="modal">დახურვა</button>
+                <button type="button" class="btn danger p-x-md" ng-disabled="addEditForm.$invalid"
+                        ng-click="save()">შენახვა
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

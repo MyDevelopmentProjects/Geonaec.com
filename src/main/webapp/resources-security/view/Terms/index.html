@@ -1,0 +1,78 @@
+<div class="padding">
+    <div class="box"  ng-form="addEditForm"  uploader="uploader">
+        <form style="padding:30px">
+            <fieldset>
+                <legend>
+                    წესების და უფლებების რედაქტირება
+                </legend>
+            </fieldset>
+            <hr>
+            <fieldset>
+                <div class="row">
+                    <div class="b-b b-primary nav-active-primary">
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="" data-toggle="tab" data-target="#tab-georgian"
+                                   aria-expanded="false">ქართული</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="" data-toggle="tab"
+                                   data-target="#tab-english" aria-expanded="true">English</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="" data-toggle="tab"
+                                   data-target="#tab-russian" aria-expanded="true">Russia</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-content p-a m-b-md">
+                        <div class="tab-pane nav-active-primary active" id="tab-georgian"
+                             aria-expanded="false">
+                            <section class="col col-md-12">
+                                <div class="form-group">
+                                    <label>აღწერა ქართულად: </label>
+                                    <summernote config="options"
+                                                on-image-upload="imageUploadGE(files, editor)"
+                                                editable="editableRU" ng-model="object.translation.descriptionGE"></summernote>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="tab-pane nav-active-primary" id="tab-english"
+                             aria-expanded="true">
+                            <section class="col col-md-12">
+                                <div class="form-group">
+                                    <label>აღწერა ინგლისურად: </label>
+                                    <summernote config="options"
+                                                on-image-upload="imageUploadEN(files, editor)"
+                                                editable="editableEN" ng-model="object.translation.descriptionEN"></summernote>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="tab-pane nav-active-primary" id="tab-russian"
+                             aria-expanded="true">
+                            <section class="col col-md-12">
+                                <div class="form-group">
+                                    <label>აღწერა რუსულად: </label>
+                                    <summernote config="options"
+                                                on-image-upload="imageUploadRU(files, editor)"
+                                                editable="editableEN" ng-model="object.translation.descriptionRU"></summernote>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <hr>
+            <div class="form-actions">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="btn danger p-x-md" style="float: right;"
+                                ng-disabled="addEditForm.$invalid"
+                                ng-click="save()">შენახვა
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

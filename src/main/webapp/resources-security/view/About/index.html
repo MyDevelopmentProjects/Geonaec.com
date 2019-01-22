@@ -1,0 +1,110 @@
+<div class="padding">
+    <div class="box"  ng-form="addEditForm"  uploader="uploader">
+        <form style="padding:30px">
+            <fieldset>
+                <legend>
+                    ჩვენ შესახებ რედაქტირება
+                </legend>
+            </fieldset>
+            <hr>
+            <fieldset>
+                <div class="row">
+                    <div class="b-b b-primary nav-active-primary">
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="" data-toggle="tab" data-target="#tab-georgian"
+                                   aria-expanded="false">ვიდეო სექცია</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="" data-toggle="tab"
+                                   data-target="#tab-english" aria-expanded="true">ფოტო სექცია</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-content p-a m-b-md">
+                        <div class="tab-pane nav-active-primary active" id="tab-georgian"
+                             aria-expanded="false">
+                            <section>
+                                <div class="form-group">
+                                    <label>ტაბის სათაური: </label>
+                                    <input class="form-control rounded" type="text" placeholder="ტაბის სათაური"
+                                           ng-model="object.tabTitleLeft">
+                                </div>
+                            </section>
+                            <section>
+                                <div class="form-group">
+                                    <label>სათაური: </label>
+                                    <input class="form-control rounded" type="text" placeholder="სათაური"
+                                           ng-model="object.title1">
+                                </div>
+                            </section>
+                            <section>
+                                <div class="form-group">
+                                    <label>ვიდეოს მისამართი: </label>
+                                    <input class="form-control rounded" type="text" placeholder="ვიდეოს მისამართი"
+                                           ng-model="object.videoUrl">
+                                </div>
+                            </section>
+                            <section class="col col-md-12">
+                                <div class="form-group">
+                                    <label>სექციის აღწერა: </label>
+                                    <summernote config="options"
+                                                on-image-upload="imageUploadGE(files, editor)"
+                                                editable="editableRU" ng-model="object.description1"></summernote>
+                                </div>
+                            </section>
+
+                        </div>
+                        <div class="tab-pane nav-active-primary" id="tab-english"
+                             aria-expanded="true">
+                            <section>
+                                <div class="form-group">
+                                    <label>ტაბის სათაური: </label>
+                                    <input class="form-control rounded" type="text" placeholder="ტაბის სათაური"
+                                           ng-model="object.tabTitleRight">
+                                </div>
+                            </section>
+                            <section>
+                                <div class="form-group">
+                                    <label>სათაური: </label>
+                                    <input class="form-control rounded" type="text" placeholder="სათაური"
+                                           ng-model="object.title2">
+                                </div>
+                            </section>
+                            <section class="col col-md-12">
+                                <div class="form-group">
+                                    <label>სექციის აღწერა: </label>
+                                    <summernote config="options"
+                                                on-image-upload="imageUploadEN(files, editor)"
+                                                editable="editableEN" ng-model="object.description2"></summernote>
+                                </div>
+                            </section>
+                            <section class="col col-md-12">
+                                <div class="form-group">
+                                    <label>ფოტოები(მაქს 4): </label>
+                                    <imperio-file-uploader-input-multiple class="uplMult"></imperio-file-uploader-input-multiple>
+                                    <br/>
+                                    <div ng-repeat="item in fileArr">
+                                        <a href="uploads/{{item}}" target="_blank">{{item}}</a>
+                                        <a href="javascript:void(0)" ng-click="removeFile(fileArr.indexOf(item))"><b>&nbsp;წაშლა&nbsp;</b></a>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <hr>
+            <div class="form-actions">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="btn danger p-x-md" style="float: right;"
+                                ng-disabled="addEditForm.$invalid"
+                                ng-click="saveLazyMult()">შენახვა
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
